@@ -6,3 +6,11 @@ let attachEventListener = function () {
 };
 
 attachEventListener();
+
+let domContentLoaded =function (){
+    document.getElementById("btn").addEventListener("click",function (){
+        console.log("DOM has loaded");
+    })
+}
+
+domContentLoaded();
