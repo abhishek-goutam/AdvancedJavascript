@@ -19,7 +19,7 @@ function createPost(post) {
       posts.push({ ...post, createdAt: new Date().getTime() });
       const error = false;
       if (!error) {
-        resolve();
+        resolve(updatePost())
       } else {
         reject("Something went wrong");
       }
@@ -42,70 +42,33 @@ function deletePost() {
   });
 }
 createPost({ title: "Post Three", body: "This is post Three" })
-  .then(() => {
-    getPost();
-    deletePost()
-      .then(() => {
-        getPost();
-        deletePost()
-          .then(() => {
-            getPost();
-            deletePost()
-              .then(() => {
-                getPost();
-                deletePost()
-                  .then(() => {})
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              })
-              .catch((err) => console.log(err));
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
-  })
-  .catch((err) => console.log(err));
+  // .then(() => {
+  //   getPost();
+  //   deletePost()
+  //     .then(() => {
+  //       getPost();
+  //       deletePost()
+  //         .then(() => {
+  //           getPost();
+  //           deletePost()
+  //             .then(() => {
+  //               getPost();
+  //               deletePost()
+  //                 .then(() => {})
+  //                 .catch((err) => {
+  //                   console.log(err);
+  //                 });
+  //             })
+  //             .catch((err) => console.log(err));
+  //         })
+  //         .catch((err) => console.log(err));
+  //     })
+  //     .catch((err) => console.log(err));
+  // })
+  // .catch((err) => console.log(err));
 
-// deletePost()
-//   .then(() => {
-//     getPost();
-//     console.log("Zero", posts);
+// Promise.all
 
-//     deletePost()
-//       .then(() => {
-//         getPost();
-//         console.log("Second", posts);
-//         deletePost()
-//           .then(() => {
-//             getPost();
-//             console.log("last", posts);
-//           })
-//           .catch((err) => {
-//             console.log("1", err);
-//           });
-//       })
-//       .catch((err) => console.log("2", err));
-//   })
-//   .catch((err) => console.log("3", err));
-
-// console.log(posts)
-
-// async function init() {
-//   await createPost({ title: "Post Three", body: "This is post Three" });
-//   getPost();
-// }
-// init();
-// -----------------------------------------------------------------------------
-
-// async function fetchUsers() {
-//   const res = await fetch("https://jsonplaceholder.typicode.com/users");
-//   const data = await res.json();
-
-//   console.log(data);
-// }
-
-// fetchUsers();
 // const promise1 = Promise.resolve("Hello World");
 // const promse2 = 10;
 // const promise3 = new Promise((resolve, reject) => {
@@ -115,6 +78,51 @@ createPost({ title: "Post Three", body: "This is post Three" })
 //   (res) => res.json()
 // );
 
+// Promise.all([promise1, promse2, promise3, promise4]).then((values) =>
+//   console.log(values)
+// );
+
+function updateLastUserActivityTime() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      posts.lastActiveTime = new Date().getTime();
+      resolve(posts.lastActiveTime);
+    }, 1000);
+  });
+}
+
+function updatePost() {
+  Promise.all([createPost, updateLastUserActivityTime()])
+    .then(([value1, value2]) => {
+      getPost();
+      // console.log(posts, value2);
+    })
+    .catch((err) => console.log(err));
+}
+createPost({ title: "Post Four", body: "This is post Four" }).then(()=>{
+  getPost();
+  deletePost();
+})
+
+console.log("Posts",posts)
+
+
+// -----------------------------------------------------------------------------
+
+// async function init() {
+//   await createPost({ title: "Post Three", body: "This is post Three" });
+//   getPost();
+// }
+// init();
+
+// async function fetchUsers() {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/users");
+//   const data = await res.json();
+
+//   console.log(data);
+// }
+
+// fetchUsers();
 // ----****************-----------******************------------*************************
 
 // const fourthPost = createPost({
