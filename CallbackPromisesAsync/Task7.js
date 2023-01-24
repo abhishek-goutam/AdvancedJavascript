@@ -22,7 +22,17 @@ const getButter =getPopcorn.then((t) => {
         // console.log("resolve",resolve())
         resolve(`${t} ---butter----`)});
   });
-getButter.then((res)=>{
+
+const  getcoldDrink = getButter.then((t)=>{
+    console.log("Wife: Can we grab a coldrink as well");
+    console.log("Husband: Sure Darling! Anything for you");
+
+    return new Promise((resolve,reject)=>{
+      resolve(`${t} ----ColdRink-------`)
+    })
+
+})
+getcoldDrink.then((res)=>{
 console.log(res);
 });
 // getPopcorn.then((t)=> console.log(t));
